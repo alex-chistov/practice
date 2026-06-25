@@ -11,6 +11,7 @@ Backend-система для заведения заявок пользоват
 - Сами файлы сохраняются в MinIO.
 - Пользователь видит и скачивает только свои заявки и файлы.
 - OpenAPI/Swagger UI доступен по адресу `/swagger-ui/index.html`.
+- У заявки есть категория: `TECHNICAL`, `DOCUMENTS` или `OTHER`.
 
 ## Запуск
 
@@ -62,6 +63,7 @@ curl -X POST http://localhost:8080/api/auth/login ^
 curl -X POST http://localhost:8080/api/applications ^
   -H "Authorization: Bearer TOKEN" ^
   -F "title=Проблема с документом" ^
+  -F "category=DOCUMENTS" ^
   -F "description=Нужно проверить прикрепленный файл" ^
   -F "files=@C:\path\to\file.jpg"
 ```
