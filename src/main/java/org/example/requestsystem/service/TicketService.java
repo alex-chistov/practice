@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TicketService {
@@ -37,10 +38,11 @@ public class TicketService {
     }
 
     @Transactional
-    public TicketResponse create(String username, String title, String description, List<MultipartFile> files) {
+    public TicketResponse create(String username, String title, String category, String description, List<MultipartFile> files) {
         if (title == null || title.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Название заявки обязательно");
         }
+        TicketCategory ticketCategory = parseCategory(category);
         if (description == null || description.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Описание заявки обязательно");
         }
@@ -52,6 +54,7 @@ public class TicketService {
         ticket.setOwner(owner);
         ticket.setTitle(title.trim());
         ticket.setDescription(description.trim());
+        ticket.setCategory(ticketCategory);
         ticket = ticketRepository.save(ticket);
 
         for (MultipartFile file : safeFiles(files)) {
@@ -96,6 +99,20 @@ public class TicketService {
 
     private List<MultipartFile> safeFiles(List<MultipartFile> files) {
         return files == null ? Collections.emptyList() : files;
+    }
+
+    private TicketCategory parseCategory(String category) {
+        if (category == null || category.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Категория заявки обязательна");
+        }
+        try {
+            return TicketCategory.valueOf(category.trim().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Категория заявки должна быть TECHNICAL, DOCUMENTS или OTHER"
+            );
+        }
     }
 
     private TicketResponse toResponse(Ticket ticket) {

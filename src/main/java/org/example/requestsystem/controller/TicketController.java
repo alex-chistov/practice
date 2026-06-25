@@ -41,10 +41,11 @@ public class TicketController {
     @Operation(summary = "Создать заявку с медиа-файлами")
     public ResponseEntity<TicketResponse> create(
             @Parameter(description = "Название заявки") @RequestParam String title,
+            @Parameter(description = "Категория заявки: TECHNICAL, DOCUMENTS или OTHER") @RequestParam String category,
             @Parameter(description = "Описание заявки") @RequestParam String description,
             @Parameter(description = "Один или несколько файлов") @RequestParam(value = "files", required = false) List<MultipartFile> files,
             Authentication authentication) {
-        TicketResponse response = ticketService.create(authentication.getName(), title, description, files);
+        TicketResponse response = ticketService.create(authentication.getName(), title, category, description, files);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
