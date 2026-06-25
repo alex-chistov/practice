@@ -39,6 +39,10 @@ public class Ticket {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 30)
+    private TicketCategory category = TicketCategory.OTHER;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private TicketStatus status = TicketStatus.NEW;
 
@@ -89,6 +93,14 @@ public class Ticket {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public TicketCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(TicketCategory category) {
+        this.category = category;
     }
 
     public TicketStatus getStatus() {

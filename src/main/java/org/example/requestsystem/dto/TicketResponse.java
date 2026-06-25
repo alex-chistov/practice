@@ -1,5 +1,6 @@
 package org.example.requestsystem.dto;
 
+import org.example.requestsystem.model.TicketCategory;
 import org.example.requestsystem.model.TicketStatus;
 
 import java.time.Instant;
@@ -10,15 +11,17 @@ public class TicketResponse {
     private Long id;
     private String title;
     private String description;
+    private TicketCategory category;
     private TicketStatus status;
     private Instant createdAt;
     private List<TicketFileResponse> files;
 
-    public TicketResponse(Long id, String title, String description, TicketStatus status,
+    public TicketResponse(Long id, String title, String description, TicketCategory category, TicketStatus status,
                           Instant createdAt, List<TicketFileResponse> files) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.category = category;
         this.status = status;
         this.createdAt = createdAt;
         this.files = files;
@@ -46,6 +49,14 @@ public class TicketResponse {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public TicketCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(TicketCategory category) {
+        this.category = category;
     }
 
     public TicketStatus getStatus() {

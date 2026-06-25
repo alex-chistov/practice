@@ -4,6 +4,7 @@ import org.example.requestsystem.dto.TicketFileResponse;
 import org.example.requestsystem.dto.TicketResponse;
 import org.example.requestsystem.model.AppUser;
 import org.example.requestsystem.model.Ticket;
+import org.example.requestsystem.model.TicketCategory;
 import org.example.requestsystem.model.TicketFile;
 import org.example.requestsystem.repository.TicketFileRepository;
 import org.example.requestsystem.repository.TicketRepository;
@@ -113,6 +114,7 @@ public class TicketService {
                 ticket.getId(),
                 ticket.getTitle(),
                 ticket.getDescription(),
+                ticket.getCategory() == null ? TicketCategory.OTHER : ticket.getCategory(),
                 ticket.getStatus(),
                 ticket.getCreatedAt(),
                 files
